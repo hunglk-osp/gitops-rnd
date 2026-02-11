@@ -14,7 +14,6 @@ spec:
     targetRevision: main  # Branch 
     directory:
       recurse: true  # Đọc cả subfolder
-      exclude: "argocd-bootstrap.yaml"  # Bỏ qua chính nó để tránh recursion vô hạn
   project: default  # ArgoCD project
   syncPolicy:
     automated:
