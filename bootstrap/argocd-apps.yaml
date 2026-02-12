@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-apps  # Root Application - quản lý tất cả child Applications
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd  # Application CRD phải nằm trong namespace argocd để ArgoCD watch được
+
+  source:
+    path: apps
+    repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"  # GitOps repo
+    targetRevision: main  # Branch
+    directory:
+      recurse: true  # Đọc cả subfolder
+  project: default  # ArgoCD project
+  syncPolicy:
+    automated:
+      prune: true     # Delete child Applications nếu YAML bị xóa
+      selfHeal: true  # Auto revert nếu edit trên cluster
+    syncOptions:
+      - CreateNamespace=true  # Auto tạo namespace
+      - ApplyOutOfSyncOnly=true  # Chỉ apply khi có diff
+      - ServerSideApply=true  # Tránh conflict giữa controllers và lỗi annotation quá lớn
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
