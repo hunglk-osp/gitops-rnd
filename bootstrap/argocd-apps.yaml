@@ -6,8 +6,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd  # Application CRD phải nằm trong namespace argocd để ArgoCD watch được
-
+    namespace: argocd-applications  
   source:
     path: apps
     repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"  # GitOps repo

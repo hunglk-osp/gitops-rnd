@@ -1,0 +1,59 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+  namespace: rnd-keycloak
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"  # Tạo sau PostgreSQL đã ready
+spec:
+  image: docker.io/hunglk247/keycloak-custom:26.5.2-metrics-v3
+  instances: 2
+
+  db:
+    vendor: postgres
+    host: keycloak-db-rw.rnd-keycloak.svc.cluster.local
+    port: 5432
+    database: keycloak
+    usernameSecret:
+      name: keycloak-db-credentials
+      key: username
+    passwordSecret:
+      name: keycloak-db-credentials
+      key: password
+
+  hostname:
+    strict: false
+  proxy:
+    headers: xforwarded
+
+  http:
+    httpEnabled: true
+    httpPort: 8080
+    httpsPort: 8443
+
+  additionalOptions:
+    - name: health-enabled
+      value: "true"
+    - name: metrics-enabled
+      value: "true"
+    - name: event-metrics-user-enabled
+      value: "true"
+    - name: event-metrics-user-events
+      value: "login,logout,code_to_token,refresh_token,token_exchange,client_login"
+    - name: event-metrics-user-tags
+      value: "realm,idp,clientId"
+    - name: log-level
+      value: "INFO"
+
+  unsupported:
+    podTemplate:
+      metadata:
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "9000"
+          prometheus.io/path: "/metrics"
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 256Mi

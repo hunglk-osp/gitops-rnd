@@ -1,0 +1,28 @@
+# Application deploy Keycloak + PostgreSQL vào namespace rnd-keycloak
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd  # Application CRD nằm trong argocd để ArgoCD watch được
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"
+    targetRevision: main
+    path: apps/keycloak  # Trỏ đến folder chứa manifests thực
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: rnd-keycloak  # Deploy manifests vào namespace riêng
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
