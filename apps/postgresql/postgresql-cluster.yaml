@@ -2,9 +2,8 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: keycloak-db
-  namespace: rnd-keycloak
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"  # Tạo sau Secret, trước Keycloak
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:17

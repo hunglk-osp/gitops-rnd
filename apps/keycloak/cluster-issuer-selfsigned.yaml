@@ -3,6 +3,6 @@ kind: ClusterIssuer
 metadata:
   name: selfsigned
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"  # Tạo trước để Ingress có thể request cert
+    argocd.argoproj.io/sync-wave: "-2"
 spec:
   selfSigned: {}

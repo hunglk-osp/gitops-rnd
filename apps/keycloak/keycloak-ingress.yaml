@@ -2,9 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: keycloak-ingress
-  namespace: rnd-keycloak
   annotations:
-    argocd.argoproj.io/sync-wave: "1"  # Tạo cuối cùng sau khi Keycloak đã ready
+    argocd.argoproj.io/sync-wave: "1"
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: "selfsigned"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
@@ -14,17 +13,17 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
 spec:
   tls:
-  - hosts:
-    - keycloak.local
-    secretName: keycloak-tls-secret
+    - hosts:
+        - keycloak.local
+      secretName: keycloak-tls-secret
   rules:
-  - host: keycloak.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: keycloak-service
-            port:
-              number: 8080
+    - host: keycloak.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-service
+                port:
+                  number: 8080

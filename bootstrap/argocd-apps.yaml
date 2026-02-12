@@ -12,7 +12,7 @@ spec:
     repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"  # GitOps repo
     targetRevision: main  # Branch
     directory:
-      recurse: true  # Đọc cả subfolder
+      recurse: false  # Chỉ quét file Application ở root apps/, không recurse vào subfolder (Kustomization)
   project: default  # ArgoCD project
   syncPolicy:
     automated:
