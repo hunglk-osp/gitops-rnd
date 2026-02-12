@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql
+  name: cloudnative-pg-operator
   namespace: argocd-applications
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   project: default
   source:
-    repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"
-    targetRevision: main
-    path: apps/postgresql
+    repoURL: https://cloudnative-pg.github.io/charts
+    chart: cloudnative-pg
+    targetRevision: 0.23.0  # Latest stable version
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd-applications
+    namespace: cnpg-system
   syncPolicy:
     automated:
       prune: true

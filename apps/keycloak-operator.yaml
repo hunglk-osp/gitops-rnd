@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql
+  name: keycloak-operator
   namespace: argocd-applications
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   project: default
   source:
     repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"
     targetRevision: main
-    path: apps/postgresql
+    path: apps/keycloak-operator
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd-applications
+    namespace: keycloak-operator-system
   syncPolicy:
     automated:
       prune: true
