@@ -13,7 +13,7 @@ spec:
     path: apps/keycloak-operator
   destination:
     server: https://kubernetes.default.svc
-    namespace: keycloak-operator-system
+    namespace: argocd-applications
   syncPolicy:
     automated:
       prune: true
