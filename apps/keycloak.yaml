@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: keycloak
-  namespace: argocd-applications
+  namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -13,7 +13,7 @@ spec:
     path: apps/keycloak
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd-applications
+    namespace: rnd-keycloak
   syncPolicy:
     automated:
       prune: true

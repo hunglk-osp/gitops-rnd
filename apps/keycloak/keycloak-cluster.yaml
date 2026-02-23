@@ -10,7 +10,7 @@ spec:
 
   db:
     vendor: postgres
-    host: keycloak-db-rw.argocd-applications.svc.cluster.local
+    host: keycloak-db-rw.rnd-keycloak.svc.cluster.local
     port: 5432
     database: keycloak
     usernameSecret:
