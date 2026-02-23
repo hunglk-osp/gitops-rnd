@@ -27,12 +27,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
-  ignoreDifferences:
-    - group: apps
-      kind: StatefulSet
-      jsonPointers:
-        - /spec/volumeClaimTemplates/0/apiVersion
-        - /spec/volumeClaimTemplates/0/kind
+
   syncPolicy:
     automated:
       prune: true
