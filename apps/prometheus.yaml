@@ -28,6 +28,12 @@ spec:
     server: https://kubernetes.default.svc
     namespace: monitoring
 
+  ignoreDifferences:
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/volumeClaimTemplates/0/apiVersion
+        - /spec/volumeClaimTemplates/0/kind
   syncPolicy:
     automated:
       prune: true
@@ -42,21 +48,3 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 3m
-  ignoreDifferences:
-    - group: "*"
-      kind: "*"
-      jsonPointers:
-        - /metadata/creationTimestamp
-        - /metadata/generation
-        - /metadata/resourceVersion
-        - /metadata/uid
-        - /metadata/managedFields
-    - group: ""
-      kind: "PersistentVolumeClaim"
-      jsonPointers:
-        - /spec/volumeName
-        - /status
-    - group: "apps"
-      kind: "Deployment"
-      jsonPointers:
-        - /spec/template/metadata/creationTimestamp
