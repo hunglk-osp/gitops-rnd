@@ -22,6 +22,8 @@ spec:
 
   hostname:
     strict: false
+  ingress:
+    enabled: false
   proxy:
     headers: xforwarded
 
