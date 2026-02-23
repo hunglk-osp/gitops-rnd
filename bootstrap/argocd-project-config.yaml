@@ -16,4 +16,4 @@ spec:
     - group: '*'
       kind: '*'
   sourceNamespaces:
-    - argocd-applications
+    - '*'

@@ -6,5 +6,5 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-3"  # Tạo trước tất cả
 data:
-  # Cho phép ArgoCD watch Application CRDs trong namespace argocd-applications
-  application.namespaces: "argocd-applications"
+  # Cho phép ArgoCD watch Application CRDs trong tất cả namespace
+  application.namespaces: "*"
