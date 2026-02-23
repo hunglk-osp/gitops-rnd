@@ -6,4 +6,3 @@ namespace: argocd-applications
 resources:
   - cluster-issuer-selfsigned.yaml
   - keycloak-cluster.yaml
-  - keycloak-ingress.yaml

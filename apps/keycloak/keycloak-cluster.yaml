@@ -21,6 +21,7 @@ spec:
       key: password
 
   hostname:
+    hostname: keycloak.local
     strict: false
   proxy:
     headers: xforwarded
