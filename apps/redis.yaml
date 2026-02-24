@@ -25,6 +25,9 @@ spec:
           quorum: 2
         haproxy:
           enabled: false
+        exporter:
+          enabled: true
+          port: 9121
   destination:
     server: https://kubernetes.default.svc
     namespace: redis
