@@ -43,12 +43,25 @@ spec:
               group_wait: 30s
               group_interval: 5m
               repeat_interval: 1h
-              receiver: 'webhook'
+              receiver: 'null'
               routes:
                 - matchers:
-                    - severity = critical
+                    - alertname = Watchdog
+                  receiver: 'null'
+                - matchers:
+                    - alertname =~ "KubeProxy.*|KubeScheduler.*|KubeControllerManager.*|KubeAggregated.*"
+                  receiver: 'null'
+                - matchers:
+                    - severity =~ "warning|critical"
                   receiver: 'webhook'
+            inhibit_rules:
+              - source_matchers:
+                  - severity = critical
+                target_matchers:
+                  - severity = warning
+                equal: ['alertname']
             receivers:
+              - name: 'null'
               - name: 'webhook'
                 webhook_configs:
                   - url: 'http://lark-alertmanager-webhook.monitoring.svc.cluster.local:8080/webhook'
@@ -83,6 +96,12 @@ spec:
                     annotations:
                       summary: "Critical memory usage on {{ $labels.instance }}"
                       description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"
+        kubeProxy:
+          enabled: false
+        kubeScheduler:
+          enabled: false
+        kubeControllerManager:
+          enabled: false
         grafana:
           enabled: true
           adminPassword: "admin123"
