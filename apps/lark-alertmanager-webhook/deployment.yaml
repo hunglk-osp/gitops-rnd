@@ -12,6 +12,8 @@ spec:
       labels:
         app: lark-alertmanager-webhook
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-worker-test
       containers:
         - name: lark-alertmanager-webhook
           image: dockerhub.ospgroup.vn/osp-public/lark-alertmanager-webhook:latest
