@@ -30,6 +30,10 @@ spec:
         exporter:
           enabled: true
           port: 9121
+        serviceMonitor:
+          enabled: true
+          labels:
+            release: kube-prometheus-stack
   destination:
     server: https://kubernetes.default.svc
     namespace: redis
