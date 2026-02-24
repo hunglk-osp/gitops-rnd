@@ -13,7 +13,7 @@ spec:
     targetRevision: "*"
     helm:
       values: |
-        replicas: 2
+        replicas: 3
         auth: true
         redisPassword: "redis123"
         persistentVolume:
