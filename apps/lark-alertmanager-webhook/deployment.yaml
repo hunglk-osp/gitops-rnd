@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lark-alertmanager-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lark-alertmanager-webhook
+  template:
+    metadata:
+      labels:
+        app: lark-alertmanager-webhook
+    spec:
+      containers:
+        - name: lark-alertmanager-webhook
+          image: dockerhub.ospgroup.vn/osp-public/lark-alertmanager-webhook:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: LARK_WEBHOOK_URL
+              value: "https://open.larksuite.com/open-apis/bot/v2/hook/e0a948df-f9ee-463a-8962-3e9416340a17"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi

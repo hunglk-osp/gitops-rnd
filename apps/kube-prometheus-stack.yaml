@@ -35,6 +35,24 @@ spec:
             hosts:
               - prometheus.rnd
         alertmanager:
+          config:
+            global:
+              resolve_timeout: 5m
+            route:
+              group_by: ['alertname', 'severity']
+              group_wait: 30s
+              group_interval: 5m
+              repeat_interval: 1h
+              receiver: 'webhook'
+              routes:
+                - matchers:
+                    - severity = critical
+                  receiver: 'webhook'
+            receivers:
+              - name: 'webhook'
+                webhook_configs:
+                  - url: 'http://lark-alertmanager-webhook.monitoring.svc.cluster.local:8080/webhook'
+                    send_resolved: true
           alertmanagerSpec:
             storage:
               volumeClaimTemplate:
@@ -44,6 +62,27 @@ spec:
                   resources:
                     requests:
                       storage: 2Gi
+        additionalPrometheusRulesMap:
+          node-memory-alerts:
+            groups:
+              - name: node-memory
+                rules:
+                  - alert: HighNodeMemoryUsage
+                    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 70
+                    for: 5m
+                    labels:
+                      severity: warning
+                    annotations:
+                      summary: "High memory usage on {{ $labels.instance }}"
+                      description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"
+                  - alert: CriticalNodeMemoryUsage
+                    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+                    for: 2m
+                    labels:
+                      severity: critical
+                    annotations:
+                      summary: "Critical memory usage on {{ $labels.instance }}"
+                      description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"
         grafana:
           enabled: true
           adminPassword: "admin123"
