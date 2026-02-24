@@ -24,6 +24,7 @@ spec:
           enabled: true
           quorum: 2
         hardAntiAffinity: false
+        affinity: {}
         haproxy:
           enabled: false
         exporter:
