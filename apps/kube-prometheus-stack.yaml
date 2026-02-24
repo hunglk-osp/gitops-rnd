@@ -18,6 +18,9 @@ spec:
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelector: {}
             serviceMonitorNamespaceSelector: {}
+            podMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelector: {}
+            podMonitorNamespaceSelector: {}
             storageSpec:
               volumeClaimTemplate:
                 spec:
