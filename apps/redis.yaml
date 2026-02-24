@@ -7,33 +7,32 @@ metadata:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
   project: default
-  source:
-    repoURL: https://dandydeveloper.github.io/charts/
-    chart: redis-ha
-    targetRevision: "*"
-    helm:
-      values: |
-        replicas: 3
-        auth: true
-        redisPassword: "redis123"
-        persistentVolume:
-          enabled: true
-          size: 5Gi
-          storageClass: local-path
-        sentinel:
-          enabled: true
-          quorum: 2
-        hardAntiAffinity: false
-        affinity: {}
-        haproxy:
-          enabled: false
-        exporter:
-          enabled: true
-          port: 9121
-        serviceMonitor:
-          enabled: true
-          labels:
-            release: kube-prometheus-stack
+  sources:
+    - repoURL: https://dandydeveloper.github.io/charts/
+      chart: redis-ha
+      targetRevision: "*"
+      helm:
+        values: |
+          replicas: 3
+          auth: true
+          redisPassword: "redis123"
+          persistentVolume:
+            enabled: true
+            size: 5Gi
+            storageClass: local-path
+          sentinel:
+            enabled: true
+            quorum: 2
+          hardAntiAffinity: false
+          affinity: {}
+          haproxy:
+            enabled: false
+          exporter:
+            enabled: true
+            port: 9121
+    - repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"
+      targetRevision: main
+      path: apps/redis
   destination:
     server: https://kubernetes.default.svc
     namespace: redis
