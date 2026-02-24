@@ -14,7 +14,7 @@ spec:
       targetRevision: "*"
       helm:
         values: |
-          replicas: 3
+          replicas: 1
           auth: true
           redisPassword: "redis123"
           persistentVolume:
@@ -23,7 +23,7 @@ spec:
             storageClass: local-path
           sentinel:
             enabled: true
-            quorum: 2
+            quorum: 1
           hardAntiAffinity: false
           affinity: {}
           haproxy:
