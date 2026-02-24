@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  project: default
+  source:
+    repoURL: https://dandydeveloper.github.io/charts/
+    chart: redis-ha
+    targetRevision: "*"
+    helm:
+      values: |
+        replicas: 3
+        auth: true
+        redisPassword: "redis123"
+        persistentVolume:
+          enabled: true
+          size: 5Gi
+          storageClass: local-path
+        sentinel:
+          enabled: true
+          quorum: 2
+        haproxy:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: redis
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
