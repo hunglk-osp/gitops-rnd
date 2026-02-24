@@ -23,6 +23,7 @@ spec:
         sentinel:
           enabled: true
           quorum: 2
+        hardAntiAffinity: false
         haproxy:
           enabled: false
         exporter:
