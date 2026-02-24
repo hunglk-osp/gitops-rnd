@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: keycloak-metrics
+  labels:
+    app: keycloak
+    release: kube-prometheus-stack
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+      app.kubernetes.io/instance: keycloak
+      app.kubernetes.io/managed-by: keycloak-operator
+  namespaceSelector:
+    matchNames:
+      - rnd-keycloak
+  endpoints:
+    - port: management
+      path: /metrics
+      interval: 30s
+      scheme: http
+      scrapeTimeout: 10s
