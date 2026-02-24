@@ -63,3 +63,6 @@ spec:
     highAvailability:
       enabled: true
       slotPrefix: _cnpg_
+
+  monitoring:
+    enablePodMonitor: true
