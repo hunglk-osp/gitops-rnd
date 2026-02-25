@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-memory-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: node-memory
+      interval: 30s
+      rules:
+        - alert: HighNodeMemoryUsage
+          expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 70
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High memory usage on {{ $labels.instance }}"
+            description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"
+        - alert: CriticalNodeMemoryUsage
+          expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Critical memory usage on {{ $labels.instance }}"
+            description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"

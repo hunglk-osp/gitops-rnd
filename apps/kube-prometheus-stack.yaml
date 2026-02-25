@@ -80,27 +80,6 @@ spec:
                   resources:
                     requests:
                       storage: 2Gi
-        additionalPrometheusRulesMap:
-          node-memory-alerts:
-            groups:
-              - name: node-memory
-                rules:
-                  - alert: HighNodeMemoryUsage
-                    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 70
-                    for: 5m
-                    labels:
-                      severity: warning
-                    annotations:
-                      summary: "High memory usage on {{ $labels.instance }}"
-                      description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"
-                  - alert: CriticalNodeMemoryUsage
-                    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
-                    for: 2m
-                    labels:
-                      severity: critical
-                    annotations:
-                      summary: "Critical memory usage on {{ $labels.instance }}"
-                      description: "Memory usage is {{ $value | humanize }}% on node {{ $labels.instance }}"
         kubeProxy:
           enabled: false
         kubeScheduler:
