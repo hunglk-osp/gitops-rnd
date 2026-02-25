@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   image: docker.io/hunglk247/keycloak-custom:26.5.2-metrics-v3
-  instances: 2
+  instances: 1
 
   db:
     vendor: postgres
@@ -53,6 +53,9 @@ spec:
           prometheus.io/scrape: "true"
           prometheus.io/port: "9000"
           prometheus.io/path: "/metrics"
+      spec:
+        nodeSelector:
+          kubernetes.io/hostname: k8s-worker-test
 
   resources:
     requests:
