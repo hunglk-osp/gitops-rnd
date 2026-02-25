@@ -11,7 +11,7 @@ spec:
       interval: 30s
       rules:
         - alert: HighNodeMemoryUsage
-          expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 70
+          expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 80
           for: 5m
           labels:
             severity: warning
