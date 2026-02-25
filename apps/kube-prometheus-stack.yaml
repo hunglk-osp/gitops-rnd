@@ -66,6 +66,11 @@ spec:
                 webhook_configs:
                   - url: 'http://lark-alertmanager-webhook.monitoring.svc.cluster.local:8080/webhook'
                     send_resolved: true
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            hosts:
+              - alertmanager.rnd
           alertmanagerSpec:
             storage:
               volumeClaimTemplate:
@@ -75,12 +80,6 @@ spec:
                   resources:
                     requests:
                       storage: 2Gi
-
-            ingress:
-              enabled: true
-              ingressClassName: traefik
-              hosts:
-                - alertmanager.rnd
         additionalPrometheusRulesMap:
           node-memory-alerts:
             groups:
