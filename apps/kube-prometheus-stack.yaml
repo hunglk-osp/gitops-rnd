@@ -12,7 +12,7 @@ spec:
       chart: kube-prometheus-stack
       targetRevision: "*"
       helm:
-      values: |
+        values: |
         prometheus:
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
