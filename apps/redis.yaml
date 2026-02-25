@@ -31,6 +31,8 @@ spec:
           exporter:
             enabled: true
             port: 9121
+          nodeSelector:
+            kubernetes.io/hostname: k8s-worker-test
     - repoURL: "https://github.com/hunglk-osp/gitops-rnd.git"
       targetRevision: main
       path: apps/redis
