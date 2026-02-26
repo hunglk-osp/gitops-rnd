@@ -35,37 +35,6 @@ spec:
               hosts:
                 - prometheus.rnd
           alertmanager:
-            config:
-              global:
-                resolve_timeout: 5m
-              route:
-                group_by: ['alertname', 'severity']
-                group_wait: 30s
-                group_interval: 5m
-                repeat_interval: 1h
-                receiver: 'null'
-                routes:
-                  - matchers:
-                      - alertname = Watchdog
-                    receiver: 'null'
-                  - matchers:
-                      - alertname =~ "KubeProxy.*|KubeScheduler.*|KubeControllerManager.*|KubeAggregated.*"
-                    receiver: 'null'
-                  - matchers:
-                      - severity =~ "warning|critical"
-                    receiver: 'webhook'
-              inhibit_rules:
-                - source_matchers:
-                    - severity = critical
-                  target_matchers:
-                    - severity = warning
-                  equal: ['alertname']
-              receivers:
-                - name: 'null'
-                - name: 'webhook'
-                  webhook_configs:
-                    - url: 'http://lark-alertmanager-webhook.monitoring.svc.cluster.local:8080/webhook'
-                      send_resolved: true
             ingress:
               enabled: true
               ingressClassName: traefik
