@@ -7,7 +7,7 @@ metadata:
     release: kube-prometheus-stack
 spec:
   groups:
-    - name: node-memory
+    - name: custome-memory-alert
       interval: 30s
       rules:
         - alert: HighNodeMemoryUsage
