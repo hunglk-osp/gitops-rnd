@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: lark-receiver
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  route:
+    receiver: 'lark-webhook'
+    matchers:
+      - name: severity
+        matchType: =~
+        value: "warning|critical"
+  receivers:
+    - name: 'lark-webhook'
+      webhookConfigs:
+        - url: 'http://lark-alertmanager-webhook.monitoring.svc.cluster.local:8080/webhook'
+          sendResolved: true
