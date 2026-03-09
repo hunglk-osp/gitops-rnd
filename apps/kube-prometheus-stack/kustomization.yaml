@@ -4,5 +4,4 @@ kind: Kustomization
 namespace: monitoring
 
 resources:
-  - node-memory-alerts.yaml
-  - alertmanager-lark-config.yaml
+
